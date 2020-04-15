@@ -1,0 +1,122 @@
+<div class="SignUp flex bg-white h-100">
+  <div class="left p-1 bg-1 flex flex-col h-100 w-30">
+    <h3>[ Team B ] - doDo</h3>
+    <div
+      class="text-center flex-grow  flex flex-col justify-center align-center mb-4"
+    >
+      <h1 class="my-1">{{ isLoginMode ? 'Hello Friend!' : 'Welcome Back!'}}</h1>
+      <p class="my-1" *ngIf="isLoginMode">
+        Enter your personal details and start your journey with us
+      </p>
+      <p class="my-1" *ngIf="!isLoginMode">
+        To keep connected with us please login with your personal info
+      </p>
+
+      <button class="btn my-2 text-center" (click)="onSwitchMode()">
+        {{ isLoginMode ? 'SIGN UP' : 'SIGN IN' }}
+      </button>
+    </div>
+  </div>
+
+  <form
+    class="right text-center flex-grow flex flex-col justify-center text-color-3"
+    *ngIf="isLoginMode"
+    (ngSubmit)="onLogin()"
+    #login="ngForm"
+  >
+    <img
+      class="obj-cover mw-10 mx-auto"
+      src="https://ik.imagekit.io/m1ke1magek1t/default_image/doDO_Logo_90Nm1gqE1.png"
+      alt="Logo app"
+    />
+    <h1 class="text-color-1">Sign in to Task Manager</h1>
+    <input
+      name="email"
+      ngModel
+      class="form-input w-inherit mx-2"
+      type="text"
+      placeholder="Email"
+      required
+      email
+      #email="ngModel"
+    />
+    <span *ngIf="!email.valid && email.touched" class="text-red">
+      Please enter a valid email!
+    </span>
+    <input
+      name="password"
+      ngModel
+      class="form-input w-inherit mx-2"
+      type="password"
+      placeholder="Password"
+      required
+      ngModel
+      minlength="4"
+      #password="ngModel"
+    />
+    <span *ngIf="!password.valid && password.touched" class="text-red">
+      password must be at least 4 characters
+    </span>
+    <button class="btn my-2 m-auto" [disabled]="!login.valid">SIGN IN</button>
+    <span class="hover">Forgot your password?</span>
+  </form>
+
+  <form
+    class="right text-center flex-grow flex flex-col justify-center text-color-3"
+    *ngIf="!isLoginMode"
+    (ngSubmit)="onSignup()"
+    #signup="ngForm"
+  >
+    <h1 class="text-color-1">Created Account</h1>
+    <input
+      name="fullname"
+      ngModel
+      class="form-input w-inherit mx-2"
+      type="text"
+      placeholder="Name"
+      required
+      ngModel
+      minlength="4"
+      #fullname="ngModel"
+    />
+    <span *ngIf="!fullname.valid && fullname.touched" class="text-red">
+      Name must be at least 4 characters
+    </span>
+    <input
+      name="email"
+      ngModel
+      class="form-input w-inherit mx-2"
+      type="text"
+      placeholder="Email"
+      required
+      email
+      #email="ngModel"
+    />
+    <span *ngIf="!email.valid && email.touched" class="text-red">
+      Please enter a valid email!
+    </span>
+    <input
+      name="password"
+      ngModel
+      class="form-input w-inherit mx-2"
+      type="password"
+      placeholder="Password"
+      required
+      ngModel
+      minlength="4"
+      #password="ngModel"
+    />
+    <span *ngIf="!password.valid && password.touched" class="text-red">
+      password must be at least 4 characters
+    </span>
+    <input
+      name="password_confirmation"
+      ngModel
+      class="form-input w-inherit mx-2"
+      type="password"
+      placeholder="Confirm Password"
+      required
+    />
+    <button class="btn my-2 m-auto" [disabled]="!signup.valid">SIGN UP</button>
+  </form>
+</div>
