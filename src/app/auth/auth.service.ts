@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Subject } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 import { tap } from "rxjs/operators";
 import { User } from "./user.model";
 
@@ -8,7 +8,7 @@ import { User } from "./user.model";
 export class AuthService {
   baseUrl: string = "https://awesome-project-glints.herokuapp.com/api/v1";
 
-  user = new Subject<User>();
+  user = new BehaviorSubject<User>(null);
 
   constructor(private http: HttpClient) {}
 
@@ -72,5 +72,6 @@ export class AuthService {
   ) {
     const user = new User(id, fullname, email, image, token);
     this.user.next(user);
+    console.log(user);
   }
 }
