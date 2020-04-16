@@ -10,6 +10,8 @@ import { AppComponent } from "./app.component";
 import { AuthComponent } from "./auth/auth.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { NotFoundComponent } from "./not-found/not-found.component";
+import { HttpClientModule } from "@angular/common/http";
+import { LoadingSpinnerComponent } from "./shared/loading-spinner/loading-spinner.component";
 
 const appRoutes: Routes = [
   { path: "auth", component: AuthComponent },
@@ -24,13 +26,15 @@ const appRoutes: Routes = [
     AuthComponent,
     DashboardComponent,
     NotFoundComponent,
-    MustMatchDirective
+    MustMatchDirective,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     RouterModule.forRoot(appRoutes),
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

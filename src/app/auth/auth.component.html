@@ -12,7 +12,11 @@
         To keep connected with us please login with your personal info
       </p>
 
-      <button class="btn my-2 text-center" (click)="onSwitchMode()">
+      <button
+        class="btn my-2 text-center"
+        (click)="onSwitchMode()"
+        [disabled]="isLoading"
+      >
         {{ isLoginMode ? 'SIGN UP' : 'SIGN IN' }}
       </button>
     </div>
@@ -57,7 +61,14 @@
     <span *ngIf="!password.valid && password.touched" class="text-red">
       password must be at least 4 characters
     </span>
-    <button class="btn my-2 m-auto" [disabled]="!login.valid">SIGN IN</button>
+    <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+    <button
+      *ngIf="!isLoading"
+      class="btn my-2 m-auto"
+      [disabled]="!login.valid"
+    >
+      SIGN IN
+    </button>
     <span class="hover">Forgot your password?</span>
   </form>
 
@@ -124,6 +135,13 @@
     >
       Passwords must match
     </span>
-    <button class="btn my-2 m-auto" [disabled]="!signup.valid">SIGN UP</button>
+    <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+    <button
+      *ngIf="!isLoading"
+      class="btn my-2 m-auto"
+      [disabled]="!signup.valid"
+    >
+      SIGN UP
+    </button>
   </form>
 </div>
