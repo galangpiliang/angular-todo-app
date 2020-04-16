@@ -66,8 +66,9 @@
     *ngIf="!isLoginMode"
     (ngSubmit)="onSignup()"
     #signup="ngForm"
+    [mustMatch]="['password', 'password_confirmation']"
   >
-    <h1 class="text-color-1">Created Account</h1>
+    <h1 class="text-color-1">Create New Account</h1>
     <input
       name="fullname"
       ngModel
@@ -97,26 +98,32 @@
     </span>
     <input
       name="password"
-      ngModel
       class="form-input w-inherit mx-2"
       type="password"
       placeholder="Password"
       required
-      ngModel
       minlength="4"
       #password="ngModel"
+      [(ngModel)]="model.password"
     />
     <span *ngIf="!password.valid && password.touched" class="text-red">
       password must be at least 4 characters
     </span>
     <input
       name="password_confirmation"
-      ngModel
+      [(ngModel)]="model.password_confirmation"
       class="form-input w-inherit mx-2"
       type="password"
       placeholder="Confirm Password"
       required
+      #password_confirmation="ngModel"
     />
+    <span
+      *ngIf="password_confirmation.invalid && password_confirmation.errors.mustMatch"
+      class="text-red"
+    >
+      Passwords must match
+    </span>
     <button class="btn my-2 m-auto" [disabled]="!signup.valid">SIGN UP</button>
   </form>
 </div>

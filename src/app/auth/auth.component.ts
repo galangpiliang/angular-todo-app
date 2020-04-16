@@ -11,6 +11,8 @@ export class AuthComponent implements OnInit {
   @ViewChild("login") loginForm: NgForm;
   @ViewChild("signup") signupForm: NgForm;
 
+  model: any = {};
+
   constructor() {}
 
   ngOnInit(): void {}
@@ -29,5 +31,6 @@ export class AuthComponent implements OnInit {
 
   onSignup() {
     console.log("onSignup", this.signupForm);
+    alert("SUCCESS!! :-)\n\n" + JSON.stringify(this.model, null, 4));
   }
 }
