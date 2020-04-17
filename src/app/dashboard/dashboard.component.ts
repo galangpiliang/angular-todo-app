@@ -22,26 +22,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private dataStorageService: DataStorageService
   ) {}
 
+  doLogout() {
+    this.authService.signout();
+    this.router.navigate(["./auth"]);
+  }
+
   ngOnInit() {
-    console.log("ngOnInit");
     this.isLoading = true;
     this.userSub = this.authService.user.subscribe(user => {
-      if (!user) {
-        this.router.navigate(["./auth"]);
-      } else {
-        this.dataUser = user;
-        this.dataStorageService.fetchTasks(user.token).subscribe(
-          res => {
-            console.log(res, res.data.docs);
-            this.dataTasks = res.data.docs;
-            this.isLoading = false;
-          },
-          error => {
-            console.log(error);
-            this.isLoading = false;
-          }
-        );
-      }
+      this.dataUser = user;
+      this.dataStorageService.fetchTasks().subscribe(
+        res => {
+          console.log(res, res.data.docs);
+          this.dataTasks = res.data.docs;
+          this.isLoading = false;
+        },
+        error => {
+          console.log(error);
+          this.isLoading = false;
+        }
+      );
     });
   }
 

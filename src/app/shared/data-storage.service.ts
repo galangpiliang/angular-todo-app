@@ -7,12 +7,7 @@ export class DataStorageService {
 
   baseUrl: string = "https://awesome-project-glints.herokuapp.com/api/v1";
 
-  fetchTasks(token) {
-    console.log("token", token);
-    return this.http.get<any>(this.baseUrl + "/tasks?page=1", {
-      headers: {
-        Authorization: token
-      }
-    });
+  fetchTasks() {
+    return this.http.get<any>(this.baseUrl + "/tasks?page=1");
   }
 }

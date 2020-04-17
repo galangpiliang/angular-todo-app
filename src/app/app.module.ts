@@ -1,8 +1,7 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
 import { FormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 import { MustMatchDirective } from "./_helpers/must-match.directive";
 
@@ -12,13 +11,7 @@ import { AuthComponent } from "./auth/auth.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { NotFoundComponent } from "./not-found/not-found.component";
 import { LoadingSpinnerComponent } from "./shared/loading-spinner/loading-spinner.component";
-
-const appRoutes: Routes = [
-  { path: "auth", component: AuthComponent },
-  { path: "dashboard", component: DashboardComponent },
-  { path: "", redirectTo: "/dashboard", pathMatch: "full" },
-  { path: "**", component: NotFoundComponent }
-];
+import { AuthInterceptorService } from "./auth/auth-interceptor.service";
 
 @NgModule({
   declarations: [
@@ -29,14 +22,14 @@ const appRoutes: Routes = [
     MustMatchDirective,
     LoadingSpinnerComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    RouterModule.forRoot(appRoutes),
-    FormsModule,
-    HttpClientModule
+  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    }
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

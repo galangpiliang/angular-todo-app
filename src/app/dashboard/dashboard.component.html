@@ -26,7 +26,7 @@
     <h3 class="mx-2">[ Team B ] - doDo</h3>
     <div class="wrapper flex">
       <h4 class="hover"><span>Update Profile</span></h4>
-      <h4 class="hover mx-2"><span>SIGN OUT</span></h4>
+      <h4 class="hover mx-2" (click)="doLogout()"><span>SIGN OUT</span></h4>
     </div>
   </div>
 
@@ -37,7 +37,7 @@
       <div class="profile-image relative">
         <img
           class="circle m-auto h-10rem mw-10 mt-1 obj-cover"
-          [src]="dataUser.image"
+          [src]="dataUser && dataUser.image"
           alt="Profile"
         />
         <div class="overlay br">

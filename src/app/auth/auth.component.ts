@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { AuthService } from "./auth.service";
 import { Router } from "@angular/router";
@@ -8,7 +8,7 @@ import { Router } from "@angular/router";
   templateUrl: "./auth.component.html",
   styleUrls: ["./auth.component.scss"]
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent {
   isLoginMode: boolean = true;
   isLoading: boolean = false;
 
@@ -19,22 +19,14 @@ export class AuthComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit(): void {}
-
   onSwitchMode() {
     this.isLoginMode = !this.isLoginMode;
   }
-
-  // onLogin(form: NgForm) {
-  //   console.log("onLogin", form);
-  // }
 
   onLogin() {
     if (!this.loginForm.valid) {
       return console.log("Form is not valid");
     }
-    console.log("onSignin", this.loginForm);
-
     this.isLoading = true;
 
     const email: string = this.loginForm.value.email;
@@ -42,7 +34,6 @@ export class AuthComponent implements OnInit {
 
     this.authService.signin(email, password).subscribe(
       res => {
-        console.log(res);
         this.isLoading = false;
         this.loginForm.reset();
         this.router.navigate(["./dashboard"]);
@@ -62,8 +53,6 @@ export class AuthComponent implements OnInit {
     if (!this.signupForm.valid) {
       return console.log("Form is not valid");
     }
-    console.log("onSignup", this.signupForm);
-
     this.isLoading = true;
 
     const fullname: string = this.signupForm.value.fullname;
@@ -76,13 +65,11 @@ export class AuthComponent implements OnInit {
       .signup(fullname, email, password, password_confirmation)
       .subscribe(
         res => {
-          console.log(res);
           this.isLoading = false;
           this.signupForm.reset();
           this.router.navigate(["./dashboard"]);
         },
         error => {
-          console.log(error);
           this.isLoading = false;
           alert(error.error.error.message);
         }

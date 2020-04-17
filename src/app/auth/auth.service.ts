@@ -27,7 +27,6 @@ export class AuthService {
       })
       .pipe(
         tap(resData => {
-          console.log(resData);
           resData = resData.data;
           this.handleAuthentication(
             resData.id,
@@ -48,10 +47,7 @@ export class AuthService {
       })
       .pipe(
         tap(resData => {
-          console.log(resData);
           resData = resData.data;
-          console.log(resData);
-
           this.handleAuthentication(
             resData.id,
             resData.fullname,
@@ -63,6 +59,35 @@ export class AuthService {
       );
   }
 
+  autoLogin() {
+    const userData: {
+      id: string;
+      fullname: string;
+      email: string;
+      image: string;
+      _token: string;
+    } = JSON.parse(localStorage.getItem("userData"));
+    if (!userData) {
+      return;
+    }
+    const loadedUser = new User(
+      userData.id,
+      userData.fullname,
+      userData.email,
+      userData.image,
+      userData._token
+    );
+
+    if (loadedUser.token) {
+      this.user.next(loadedUser);
+    }
+  }
+
+  signout() {
+    this.user.next(null);
+    localStorage.removeItem("userData");
+  }
+
   private handleAuthentication(
     id: string,
     fullname: string,
@@ -72,6 +97,6 @@ export class AuthService {
   ) {
     const user = new User(id, fullname, email, image, token);
     this.user.next(user);
-    console.log(user);
+    localStorage.setItem("userData", JSON.stringify(user));
   }
 }
