@@ -2,6 +2,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { MustMatchDirective } from "./_helpers/must-match.directive";
 
@@ -22,7 +23,13 @@ import { AuthInterceptorService } from "./auth/auth-interceptor.service";
     MustMatchDirective,
     LoadingSpinnerComponent
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    FontAwesomeModule
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

@@ -1,17 +1,19 @@
 <div class="bg-4 text-black h-100">
-  <div class="modal flex w-100 h-100 hide">
+  <div class="modal flex w-100 h-100" *ngIf="toggle['modalProfile']">
     <div class="modal-content align-center m-auto flex flex-col minw-30 br">
       <h1>Update Profile</h1>
       <input id="userName" type="text" class="form-input w-100" />
       <input id="userEmail" type="email" class="form-input w-100" />
       <div class="wrapper flex">
-        <button class="btn mt-1">Close</button>
+        <button class="btn mt-1" (click)="doToggle('modalProfile')">
+          Close
+        </button>
         <button class="btn mt-1 ml-1">Update</button>
       </div>
     </div>
   </div>
 
-  <div class="modal flex w-100 h-100 hide">
+  <div class="modal flex w-100 h-100" *ngIf="toggle['modalUpload']">
     <div class="modal-content align-center m-auto flex flex-col minw-30 br">
       <h1>Upload Image</h1>
       <input id="userImage" type="file" class="form-input w-100" />
@@ -25,7 +27,9 @@
   <div class="flex justify-sb bg-1 text-white h-10 align-center">
     <h3 class="mx-2">[ Team B ] - doDo</h3>
     <div class="wrapper flex">
-      <h4 class="hover"><span>Update Profile</span></h4>
+      <!-- <h4 class="hover" (click)="doToggle('modalProfile')">
+        <span>Update Profile</span>
+      </h4> -->
       <h4 class="hover mx-2" (click)="doLogout()"><span>SIGN OUT</span></h4>
     </div>
   </div>
@@ -46,8 +50,8 @@
       </div>
       <h2>{{ dataUser.fullname }}</h2>
       <button class="btn my-1">All Task</button>
-      <button class="btn my-1">Apa aja</button>
-      <button class="btn my-1">Apa aja</button>
+      <button class="btn my-1">Important</button>
+      <button class="btn my-1">Complete</button>
     </div>
     <div class="right flex-grow flex flex-col text-color-3 pr-2">
       <form
@@ -69,40 +73,62 @@
       </form>
       <div class="wrapper flex-grow text-black scroll">
         <ul class="p-0">
-          <li class="bg-white" *ngIf="isLoading">
+          <li class="bg-white br" *ngIf="isLoading">
             <app-loading-spinner class="m-auto"></app-loading-spinner>
           </li>
         </ul>
+
         <ul class="p-0">
-          <h4 class="text-center" *ngIf="dataTasks.length <= 0">
+          <h4 class="text-center" *ngIf="!isLoading && dataTasks.length <= 0">
             Task is empty, let's create a task using the input form above...
           </h4>
 
-          <li *ngFor="let task of dataTasks" class="bg-white">
+          <!-- Looping Tasks Data -->
+          <li
+            *ngFor="let task of dataTasks"
+            class="flex align-center bg-white br px-1 my-1"
+          >
             <app-loading-spinner
               class="m-auto"
               *ngIf="singleLoading === task._id"
             ></app-loading-spinner>
-            <div
-              class="flex align-center br px-1 my-1"
-              *ngIf="singleLoading !== task._id"
-            >
-              <input type="checkbox" class="zoom" />
 
-              <p>{{task.title}}</p>
-              <button class="btn btn-sm px-1">star</button>
-              <button class="btn btn-sm mx-1 px-1">
-                edit
+            <ng-container
+              *ngIf="!toggle[task._id] && singleLoading !== task._id"
+            >
+              <button class="btn btn-sm px-1">
+                <fa-icon
+                  [icon]="task.completion ? faCheck : farCircle"
+                ></fa-icon>
+              </button>
+              <p
+                class="mx-1 text-ellipsis"
+                [ngClass]="{'text-strike': task.completion}"
+              >
+                {{task.title}}
+              </p>
+              <button class="btn btn-sm px-1">
+                <fa-icon
+                  [icon]="task.importanceLevel > 1 ? faStar : farStar"
+                ></fa-icon>
+              </button>
+              <button class="btn btn-sm mx-1 px-1" (click)="doToggle(task)">
+                <fa-icon [icon]="faEdit"></fa-icon>
               </button>
               <button class="btn btn-sm px-1" (click)="doDeleteTask(task._id)">
-                trash
+                <fa-icon [icon]="faTrash"></fa-icon>
               </button>
+            </ng-container>
 
-              <input type="text" class="form-input flex-grow" autofocus />
-              <button class="btn btn-sm px-1">Cancel</button>
+            <ng-container *ngIf="toggle[task._id]">
+              <input type="text" class="form-input flex-grow ml-0" autofocus />
+              <button class="btn btn-sm px-1" (click)="doToggle(task)">
+                Cancel
+              </button>
               <button class="btn btn-sm px-1 ml-1">Update</button>
-            </div>
+            </ng-container>
           </li>
+          <!-- End Looping Tasks Data -->
         </ul>
       </div>
       <div class="wrapper flex justify-center">

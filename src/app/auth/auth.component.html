@@ -61,7 +61,7 @@
     <span *ngIf="!password.valid && password.touched" class="text-red">
       password must be at least 4 characters
     </span>
-    <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+    <app-loading-spinner class="my-2" *ngIf="isLoading"></app-loading-spinner>
     <button
       *ngIf="!isLoading"
       class="btn my-2 m-auto"
@@ -134,7 +134,7 @@
     >
       Passwords must match
     </span>
-    <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+    <app-loading-spinner class="my-2" *ngIf="isLoading"></app-loading-spinner>
     <button
       *ngIf="!isLoading"
       class="btn my-2 m-auto"

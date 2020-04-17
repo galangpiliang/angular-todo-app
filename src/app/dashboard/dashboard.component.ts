@@ -4,6 +4,14 @@ import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { AuthService } from "../auth/auth.service";
 import { DataStorageService } from "../shared/data-storage.service";
+import {
+  faTrash,
+  faEdit,
+  faStar,
+  faCheck,
+  faDotCircle as farCircle
+} from "@fortawesome/free-solid-svg-icons";
+import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
 
 @Component({
   selector: "app-dashboard",
@@ -15,8 +23,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   isLoading: boolean = false;
   singleLoading: string = null;
-  dataTasks = null;
+  dataTasks = [];
   dataUser = null;
+
+  faTrash = faTrash;
+  faEdit = faEdit;
+  faStar = faStar;
+  farStar = farStar;
+  faCheck = faCheck;
+  farCircle = farCircle;
 
   @ViewChild("addTaskForm") addTaskForm: NgForm;
 
@@ -92,5 +107,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.userSub.unsubscribe();
+  }
+
+  toggle: any = {};
+  input: any = {};
+  doToggle(input) {
+    typeof input === "string"
+      ? (this.toggle = {
+          [input]: !this.toggle[input]
+        })
+      : (this.toggle = {
+          [input._id]: !this.toggle[input._id]
+        });
+    this.input = {
+      [input._id]: input.title
+    };
   }
 }
