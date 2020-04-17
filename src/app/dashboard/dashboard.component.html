@@ -50,41 +50,58 @@
       <button class="btn my-1">Apa aja</button>
     </div>
     <div class="right flex-grow flex flex-col text-color-3 pr-2">
-      <div class="wrapper flex align-center mt-2">
+      <form
+        class="wrapper flex align-center mt-2"
+        (ngSubmit)="doAddTask()"
+        #addTaskForm="ngForm"
+      >
         <input
-          id="form-addTask"
-          class="form-input flex-grow ml-0"
+          name="task"
+          class="form-input flex-grow ml-0 clear-ng-invalid"
           type="text"
           placeholder="add task..."
+          ngModel
+          required
         />
-        <button class="btn">Add Task</button>
-      </div>
+        <button class="btn" [disabled]="!addTaskForm.valid || isLoading">
+          Add Task
+        </button>
+      </form>
       <div class="wrapper flex-grow text-black scroll">
-        <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
-
-        <ul class="p-0" *ngIf="!isLoading">
+        <ul class="p-0">
+          <li class="bg-white" *ngIf="isLoading">
+            <app-loading-spinner class="m-auto"></app-loading-spinner>
+          </li>
+        </ul>
+        <ul class="p-0">
           <h4 class="text-center" *ngIf="dataTasks.length <= 0">
             Task is empty, let's create a task using the input form above...
           </h4>
 
-          <li
-            class="flex align-center bg-white br px-1 my-1"
-            *ngFor="let task of dataTasks"
-          >
-            <input type="checkbox" class="zoom" />
+          <li *ngFor="let task of dataTasks" class="bg-white">
+            <app-loading-spinner
+              class="m-auto"
+              *ngIf="singleLoading === task._id"
+            ></app-loading-spinner>
+            <div
+              class="flex align-center br px-1 my-1"
+              *ngIf="singleLoading !== task._id"
+            >
+              <input type="checkbox" class="zoom" />
 
-            <p>{{task.title}}</p>
-            <button class="btn btn-sm px-1">star</button>
-            <button class="btn btn-sm mx-1 px-1">
-              edit
-            </button>
-            <button class="btn btn-sm px-1">
-              trash
-            </button>
+              <p>{{task.title}}</p>
+              <button class="btn btn-sm px-1">star</button>
+              <button class="btn btn-sm mx-1 px-1">
+                edit
+              </button>
+              <button class="btn btn-sm px-1" (click)="doDeleteTask(task._id)">
+                trash
+              </button>
 
-            <input type="text" class="form-input flex-grow" autofocus />
-            <button class="btn btn-sm px-1">Cancel</button>
-            <button class="btn btn-sm px-1 ml-1">Update</button>
+              <input type="text" class="form-input flex-grow" autofocus />
+              <button class="btn btn-sm px-1">Cancel</button>
+              <button class="btn btn-sm px-1 ml-1">Update</button>
+            </div>
           </li>
         </ul>
       </div>

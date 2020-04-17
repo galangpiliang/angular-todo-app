@@ -10,4 +10,24 @@ export class DataStorageService {
   fetchTasks() {
     return this.http.get<any>(this.baseUrl + "/tasks?page=1");
   }
+
+  addTask(title) {
+    const d = new Date();
+    let curDate = [
+      d.getFullYear(),
+      ("0" + (d.getMonth() + 1)).slice(-2),
+      ("0" + d.getDate()).slice(-2)
+    ].join("-");
+
+    let task = {
+      title: title,
+      dueDate: curDate,
+      importanceLevel: 1
+    };
+    return this.http.post<any>(this.baseUrl + "/tasks", task);
+  }
+
+  deleteTask(id) {
+    return this.http.delete<any>(this.baseUrl + "/tasks/?id=" + id);
+  }
 }

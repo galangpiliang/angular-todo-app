@@ -316,7 +316,7 @@ body {
 }
 
 // Angular Form
-input.ng-invalid.ng-touched {
+input.ng-invalid.ng-touched:not(.clear-ng-invalid) {
   border: 1px solid $red-color;
 }
 

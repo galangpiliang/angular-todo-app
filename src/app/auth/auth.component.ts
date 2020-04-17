@@ -64,7 +64,7 @@ export class AuthComponent {
     this.authService
       .signup(fullname, email, password, password_confirmation)
       .subscribe(
-        res => {
+        () => {
           this.isLoading = false;
           this.signupForm.reset();
           this.router.navigate(["./dashboard"]);
