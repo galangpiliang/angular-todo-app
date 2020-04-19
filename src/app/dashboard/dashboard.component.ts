@@ -65,6 +65,51 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
 
+  doCompleteTask(task) {
+    const updatedTask = {
+      _id: task._id,
+      completion: !task.completion
+    };
+    this.updateTask(updatedTask);
+  }
+
+  doImportanceTask(task) {
+    const updatedTask = {
+      _id: task._id,
+      importanceLevel: task.importanceLevel === 1 ? 3 : 1
+    };
+    this.updateTask(updatedTask);
+  }
+
+  doUpdateTask(task) {
+    const updatedTask = {
+      _id: task._id,
+      title: this.input[task._id]
+    };
+    this.updateTask(updatedTask);
+    // fired toggle again
+    this.toggle = {
+      [task._id]: !this.toggle[task._id]
+    };
+  }
+
+  updateTask(task) {
+    this.singleLoading = task._id;
+    this.dataStorageService.updateTask(task).subscribe(
+      res => {
+        this.singleLoading = null;
+        console.log(res);
+        // update local state data
+        let index = this.dataTasks.findIndex(item => item._id === task._id);
+        this.dataTasks[index] = res.data;
+      },
+      error => {
+        console.log(error);
+        this.singleLoading = null;
+      }
+    );
+  }
+
   doDeleteTask(id) {
     this.singleLoading = id;
 
@@ -122,5 +167,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.input = {
       [input._id]: input.title
     };
+    console.log(this.input[input._id]);
   }
 }

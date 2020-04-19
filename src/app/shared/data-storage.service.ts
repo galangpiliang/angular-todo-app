@@ -27,6 +27,10 @@ export class DataStorageService {
     return this.http.post<any>(this.baseUrl + "/tasks", task);
   }
 
+  updateTask(task) {
+    return this.http.put<any>(this.baseUrl + "/tasks?id=" + task._id, task);
+  }
+
   deleteTask(id) {
     return this.http.delete<any>(this.baseUrl + "/tasks/?id=" + id);
   }

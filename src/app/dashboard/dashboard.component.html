@@ -84,19 +84,17 @@
           </h4>
 
           <!-- Looping Tasks Data -->
-          <li
-            *ngFor="let task of dataTasks"
-            class="flex align-center bg-white br px-1 my-1"
-          >
+          <li *ngFor="let task of dataTasks">
             <app-loading-spinner
-              class="m-auto"
+              class="m-auto flex align-center bg-white br px-1 my-1"
               *ngIf="singleLoading === task._id"
             ></app-loading-spinner>
 
-            <ng-container
+            <div
+              class="flex align-center bg-white br px-1 my-1"
               *ngIf="!toggle[task._id] && singleLoading !== task._id"
             >
-              <button class="btn btn-sm px-1">
+              <button class="btn btn-sm px-1" (click)="doCompleteTask(task)">
                 <fa-icon
                   [icon]="task.completion ? faCheck : farCircle"
                 ></fa-icon>
@@ -107,7 +105,7 @@
               >
                 {{task.title}}
               </p>
-              <button class="btn btn-sm px-1">
+              <button class="btn btn-sm px-1" (click)="doImportanceTask(task)">
                 <fa-icon
                   [icon]="task.importanceLevel > 1 ? faStar : farStar"
                 ></fa-icon>
@@ -118,15 +116,39 @@
               <button class="btn btn-sm px-1" (click)="doDeleteTask(task._id)">
                 <fa-icon [icon]="faTrash"></fa-icon>
               </button>
-            </ng-container>
+            </div>
 
-            <ng-container *ngIf="toggle[task._id]">
-              <input type="text" class="form-input flex-grow ml-0" autofocus />
-              <button class="btn btn-sm px-1" (click)="doToggle(task)">
+            <form
+              class="flex align-center bg-white br px-1 my-1"
+              *ngIf="toggle[task._id]  && singleLoading !== task._id"
+              #formUpdate="ngForm"
+            >
+              <input
+                type="text"
+                [name]="task._id"
+                [(ngModel)]="input[task._id]"
+                class="form-input flex-grow ml-0"
+                required
+                autofocus
+                #focus
+              />
+              {{ focus.focus() }}
+              <button
+                class="btn btn-sm px-1"
+                type="button"
+                (click)="doToggle(task)"
+              >
                 Cancel
               </button>
-              <button class="btn btn-sm px-1 ml-1">Update</button>
-            </ng-container>
+              <button
+                class="btn btn-sm px-1 ml-1"
+                type="submit"
+                (click)="doUpdateTask(task)"
+                [disabled]="!formUpdate.valid"
+              >
+                Update
+              </button>
+            </form>
           </li>
           <!-- End Looping Tasks Data -->
         </ul>
