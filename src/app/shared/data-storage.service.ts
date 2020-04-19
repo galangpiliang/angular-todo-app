@@ -7,8 +7,8 @@ export class DataStorageService {
 
   baseUrl: string = "https://awesome-project-glints.herokuapp.com/api/v1";
 
-  fetchTasks() {
-    return this.http.get<any>(this.baseUrl + "/tasks?page=1");
+  getTasks(page) {
+    return this.http.get<any>(this.baseUrl + "/tasks?page=" + page);
   }
 
   addTask(title) {

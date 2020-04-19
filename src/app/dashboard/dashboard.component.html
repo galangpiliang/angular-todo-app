@@ -49,9 +49,6 @@
         </div>
       </div>
       <h2>{{ dataUser.fullname }}</h2>
-      <button class="btn my-1">All Task</button>
-      <button class="btn my-1">Important</button>
-      <button class="btn my-1">Complete</button>
     </div>
     <div class="right flex-grow flex flex-col text-color-3 pr-2">
       <form
@@ -78,8 +75,8 @@
           </li>
         </ul>
 
-        <ul class="p-0">
-          <h4 class="text-center" *ngIf="!isLoading && dataTasks.length <= 0">
+        <ul class="p-0" *ngIf="!isLoading">
+          <h4 class="text-center" *ngIf="dataTasks.length <= 0">
             Task is empty, let's create a task using the input form above...
           </h4>
 
@@ -154,7 +151,34 @@
         </ul>
       </div>
       <div class="wrapper flex justify-center">
-        <h3 class="text-black mx-1">1</h3>
+        <h3
+          *ngIf="dataPagination.prevPage"
+          (click)="getAllTask(dataPagination.prevPage)"
+          class="hover mx-1"
+        >
+          &lt;
+        </h3>
+        <ng-container
+          *ngFor="let Fakeitem of [].constructor(dataPagination.totalPages); let i = index"
+        >
+          <h3
+            [ngClass]="{
+              'text-black': i+1 === dataPagination.page,
+              'hover': i+1 !== dataPagination.page,
+              'mx-1': true
+            }"
+            (click)="i+1 !== dataPagination.page && getAllTask(i+1)"
+          >
+            {{i+1}}
+          </h3></ng-container
+        >
+        <h3
+          *ngIf="dataPagination.nextPage"
+          (click)="getAllTask(dataPagination.nextPage)"
+          class="hover mx-1"
+        >
+          &gt;
+        </h3>
       </div>
     </div>
   </div>

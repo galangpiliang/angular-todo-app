@@ -24,6 +24,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   singleLoading: string = null;
   dataTasks = [];
+  dataPagination = {
+    totalPages: 1,
+    page: 1,
+    hasPrevPage: false,
+    hasNextPage: false,
+    prevPage: null,
+    nextPage: null
+  };
   dataUser = null;
 
   faTrash = faTrash;
@@ -128,13 +136,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
 
-  getAllTask() {
+  getAllTask(page) {
     this.isLoading = true;
-    this.dataStorageService.fetchTasks().subscribe(
+    this.dataStorageService.getTasks(page).subscribe(
       res => {
         console.log(res, res.data.docs);
         this.dataTasks = res.data.docs;
+        delete res.data.docs;
+        this.dataPagination = res.data;
         this.isLoading = false;
+        console.log(this.dataPagination);
       },
       error => {
         console.log(error);
@@ -146,7 +157,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.userSub = this.authService.user.subscribe(user => {
       this.dataUser = user;
-      this.getAllTask();
+      this.getAllTask(1);
     });
   }
 
