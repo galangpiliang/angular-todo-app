@@ -12,6 +12,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
+  // Authentication
   signup(
     fullname: string,
     email: string,
@@ -99,4 +100,11 @@ export class AuthService {
     this.user.next(user);
     localStorage.setItem("userData", JSON.stringify(user));
   }
+  // End Authentication
+
+  // Update UserData
+  updateUser(data) {
+    return this.http.put<any>(this.baseUrl + "/users", data);
+  }
+  // END Update UserData
 }

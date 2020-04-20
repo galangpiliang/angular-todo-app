@@ -49,11 +49,53 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private dataStorageService: DataStorageService
   ) {}
 
+  // UserData Action
   doLogout() {
     this.authService.signout();
     this.router.navigate(["./auth"]);
   }
 
+  doUpdateProfile(form: NgForm) {
+    console.log(form);
+    const data = {
+      fullname: form.value.fullname,
+      email: form.value.email
+    };
+    this.isLoading = true;
+    this.authService.updateUser(data).subscribe(
+      res => {
+        console.log(res);
+        this.isLoading = false;
+        alert("Your data has been updated, please relogin!");
+        this.doLogout();
+      },
+      error => {
+        console.log(error);
+        this.isLoading = false;
+      }
+    );
+  }
+
+  doUploadPicture(form: NgForm) {
+    const data = new FormData();
+    data.append("image", this.fileInput);
+    this.isLoading = true;
+    this.authService.updateUser(data).subscribe(
+      res => {
+        console.log(res);
+        this.isLoading = false;
+        alert("Your data has been updated, please relogin!");
+        this.doLogout();
+      },
+      error => {
+        console.log(error);
+        this.isLoading = false;
+      }
+    );
+  }
+  // End UserData Action
+
+  // Tasks Action
   doAddTask() {
     if (!this.addTaskForm.valid) {
       return console.log("Form is not valid");
@@ -153,7 +195,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     );
   }
+  // End Tasks Action
 
+  // Angular Life Cycle
   ngOnInit() {
     this.userSub = this.authService.user.subscribe(user => {
       this.dataUser = user;
@@ -164,7 +208,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.userSub.unsubscribe();
   }
+  // End Angular Life Cycle
 
+  // Component Interaction
   toggle: any = {};
   input: any = {};
   doToggle(input) {
@@ -180,4 +226,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
     console.log(this.input[input._id]);
   }
+
+  fileInput: File;
+  fileInputHandler(event) {
+    this.fileInput = event.target.files[0];
+  }
+  // End Component Interaction
 }
