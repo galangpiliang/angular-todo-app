@@ -1,41 +1,22 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-
-import { MustMatchDirective } from "./_helpers/must-match.directive";
-
+import { HttpClientModule } from "@angular/common/http";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { AuthComponent } from "./auth/auth.component";
-import { DashboardComponent } from "./dashboard/dashboard.component";
 import { NotFoundComponent } from "./not-found/not-found.component";
-import { LoadingSpinnerComponent } from "./shared/loading-spinner/loading-spinner.component";
-import { AuthInterceptorService } from "./auth/auth-interceptor.service";
+import { AuthModule } from "./auth/auth.module";
+import { DashboardModule } from "./dashboard/dashboard.module";
+import { CoreModule } from "./core.module";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    AuthComponent,
-    DashboardComponent,
-    NotFoundComponent,
-    MustMatchDirective,
-    LoadingSpinnerComponent
-  ],
+  declarations: [AppComponent, NotFoundComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
     HttpClientModule,
-    FontAwesomeModule
-  ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptorService,
-      multi: true
-    }
+    AuthModule,
+    DashboardModule,
+    CoreModule
   ],
   bootstrap: [AppComponent]
 })

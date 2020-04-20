@@ -4,7 +4,7 @@ import { BehaviorSubject } from "rxjs";
 import { tap } from "rxjs/operators";
 import { User } from "./user.model";
 
-@Injectable({ providedIn: "root" })
+@Injectable()
 export class AuthService {
   baseUrl: string = "https://awesome-project-glints.herokuapp.com/api/v1";
 
