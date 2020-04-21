@@ -2,9 +2,9 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject } from "rxjs";
 import { tap } from "rxjs/operators";
-import { User } from "./user.model";
+import { User } from "../../models";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class AuthService {
   baseUrl: string = "https://awesome-project-glints.herokuapp.com/api/v1";
 

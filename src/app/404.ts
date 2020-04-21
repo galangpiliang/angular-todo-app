@@ -1,0 +1,13 @@
+import { Component } from "@angular/core";
+
+@Component({
+  selector: "app-not-found",
+  template: `
+    <div class="flex flex-col justify-center align-center text-black h-100">
+      <h1>404 Page Not Found</h1>
+      <hr />
+      <a routerLink="/dashboard"><h3>Back to Dashboard</h3></a>
+    </div>
+  `
+})
+export class NotFoundComponent {}

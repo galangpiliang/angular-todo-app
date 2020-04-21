@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
-import { MustMatchDirective } from "../_helpers/must-match.directive";
+import { MustMatchDirective } from "../../providers/_helpers/must-match.directive";
 import { AuthComponent } from "./auth.component";
 import { SharedModule } from "../shared/shared.module";
 
